@@ -13,7 +13,7 @@
         const context = canvasEle.getContext('2d');
         const x = window.innerWidth;
         const y = window.innerHeight;
-        const rate = 2;
+        const rate = 5;
         canvasEle.width = x;
         canvasEle.height = y;
         document.body.appendChild(canvasEle)
@@ -36,13 +36,15 @@
         setInterval(function () {
             render(initMap);
             initMap = changeMap(initMap);
-        }, 50);
+        }, 16);
 
         function mapFactory(sizeX, sizeY) {
             mapFactory.current = mapFactory.current ? 0 : 1;
-            mapFactory.pool = Array(2).fill(0).map(x => Array(sizeX).fill(0).map(function(x){
-                return Array(sizeY).fill(0);
-            }));
+            mapFactory.pool = Array(2).fill(0).map(function(x){
+                return Array(sizeX).fill(0).map(function(x){
+                    return Array(sizeY).fill(0);
+                });
+            });
             var targetArr = mapFactory.pool[mapFactory.current || 0];
             for (var i = 0; i < sizeX; i++) {
                 for (var j = 0; j < sizeY; j++) {
@@ -95,7 +97,9 @@
                         if (data[i][j] === 1) {
 //                            console.log(i, j);
 //                            context.rect(i*rate, j*rate,rate, rate);
-                            context.fillStyle = "rgb(" + [Math.random(),Math.random(),Math.random()].map(x => parseInt(255 * x, 10)).join(',') + ')';
+                            context.fillStyle = "rgb(" + [Math.random(),Math.random(),Math.random()].map(function(x) {
+                                return parseInt(255 * x, 10)}
+                            ).join(',') + ')';
 
                             context.fillRect(i*rate, j*rate,rate, rate);
                         }
