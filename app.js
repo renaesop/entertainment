@@ -83,8 +83,8 @@ function changeMap(oldMap) {
   return newMap;
 }
 function render(data) {
-  context.clearRect(0, 0, x, y);
   requestAnimationFrame(function () {
+    context.clearRect(0, 0, x, y);
     var count = 0;
     for (var i = 0; i < x ; i++) {
       for (var j = 0; j < y; j++) {
