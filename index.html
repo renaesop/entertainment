@@ -13,7 +13,8 @@
         const context = canvasEle.getContext('2d');
         const x = window.innerWidth;
         const y = window.innerHeight;
-        const rate = 5;
+        var totalTime = 0;
+        const rate = 7.5;
         canvasEle.width = x;
         canvasEle.height = y;
         document.body.appendChild(canvasEle)
@@ -27,12 +28,12 @@
         initMap[35][6] = 1;
         initMap[35][4] = 1;
         initMap[34][3] = 1;
-        initMap[32][2] = 1;
-        initMap[33][3] = 1;
-        initMap[30][3] = 1;
-        initMap[39][8] = 1;
-        initMap[39][8] = 1;
-        initMap[30][7] = 1;
+//        initMap[32][2] = 1;
+//        initMap[33][3] = 1;
+//        initMap[30][3] = 1;
+//        initMap[39][8] = 1;
+//        initMap[39][8] = 1;
+//        initMap[30][7] = 1;
         setInterval(function () {
             render(initMap);
             initMap = changeMap(initMap);
@@ -78,8 +79,11 @@
                     }
                     else if(neighbor === 2) {
                         newMap[i][j] = 1;
+                        if(Math.random() < 0.00001 * totalTime) {
+                            newMap[i][j] = 0;
+                        }
                     }
-                    else if (neighbor === 3 && Math.random() > 0.8) {
+                    else if ((neighbor === 3) && Math.random() > 0.1 + 0.02 * totalTime++) {
                         newMap[i][j] = 0;
                     }
                     else {
@@ -90,21 +94,23 @@
             return newMap;
         }
         function render(data) {
-            context.clearRect(0, 0, 500, 500);
+            context.clearRect(0, 0, x, y);
             requestAnimationFrame(function () {
+                var count = 0;
                 for (var i = 0; i < x ; i++) {
                     for (var j = 0; j < y; j++) {
                         if (data[i][j] === 1) {
+                            count += 1;
 //                            console.log(i, j);
 //                            context.rect(i*rate, j*rate,rate, rate);
                             context.fillStyle = "rgb(" + [Math.random(),Math.random(),Math.random()].map(function(x) {
                                 return parseInt(255 * x, 10)}
                             ).join(',') + ')';
-
                             context.fillRect(i*rate, j*rate,rate, rate);
                         }
                     }
                 }
+                if (count < 20) totalTime = 0;
             })
 
         }
